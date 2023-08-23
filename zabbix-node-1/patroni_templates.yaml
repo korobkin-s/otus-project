@@ -1,0 +1,144 @@
+zabbix_export:
+  version: '6.4'
+  template_groups:
+    - uuid: c2c162144c2d4c5491c8801193af4945
+      name: Templates/Cloud
+  templates:
+    - uuid: 6cb71f5cbc7e4a53aa8201f46566e1a0
+      template: 'Patroni node-1'
+      name: 'Patroni node-1'
+      groups:
+        - name: Templates/Cloud
+      items:
+        - uuid: 20c267c58bb144d5adb9be65326819b6
+          name: Role
+          type: HTTP_AGENT
+          key: patroni.role
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.role
+          url: 'http://192.168.1.100:8008/patroni'
+          tags:
+            - tag: patroni
+        - uuid: c1ae7997c51e463eb013ced60287b6ed
+          name: Status
+          type: HTTP_AGENT
+          key: patroni.status
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.state
+          url: 'http://192.168.1.100:8008/patroni'
+          query_fields:
+            - name: state
+              value: running
+          tags:
+            - tag: patroni
+      httptests:
+        - uuid: 7422376a3e6d418ca704b93414daabe4
+          name: 'Health Status'
+          delay: 10s
+          attempts: '3'
+          steps:
+            - name: patroni
+              url: 'http://192.168.1.100:8008'
+              required: '200'
+          tags:
+            - tag: patroni
+    - uuid: f30de2cc13384b76a05b7a558bbea909
+      template: 'Patroni node-2'
+      name: 'Patroni node-2'
+      groups:
+        - name: Templates/Cloud
+      items:
+        - uuid: bf035672b6f94798979075a0cf70d89c
+          name: Role
+          type: HTTP_AGENT
+          key: patroni.role
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.role
+          url: 'http://192.168.2.100:8008/patroni'
+          tags:
+            - tag: patroni
+        - uuid: b2647c1671fd4205934f0c39da258cd1
+          name: Status
+          type: HTTP_AGENT
+          key: patroni.status
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.state
+          url: 'http://192.168.2.100:8008/patroni'
+          query_fields:
+            - name: state
+              value: running
+          tags:
+            - tag: patroni
+      httptests:
+        - uuid: a7c2a29eda0a4514bc586649a7860792
+          name: 'Health Status'
+          delay: 10s
+          attempts: '3'
+          steps:
+            - name: patroni
+              url: 'http://192.168.2.100:8008/patroni'
+              required: '200'
+          tags:
+            - tag: patroni
+    - uuid: 97041b3db7e847838c62df3971957299
+      template: 'Patroni node-3'
+      name: 'Patroni node-3'
+      groups:
+        - name: Templates/Cloud
+      items:
+        - uuid: 2ddc730bb7aa42648b9196eb4f864824
+          name: Role
+          type: HTTP_AGENT
+          key: patroni.role
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.role
+          url: 'http://192.168.3.100:8008/patroni'
+          tags:
+            - tag: patroni
+        - uuid: df887ebc0aa34a4a9183427431b08f0a
+          name: Status
+          type: HTTP_AGENT
+          key: patroni.status
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.state
+          url: 'http://192.168.3.100:8008/patroni'
+          query_fields:
+            - name: state
+              value: running
+          tags:
+            - tag: patroni
+      httptests:
+        - uuid: f498fd3d628d47f881e63f8b9bb2c75c
+          name: 'Health Status'
+          delay: 10s
+          attempts: '3'
+          steps:
+            - name: patroni
+              url: 'http://192.168.3.100:8008/patroni'
+              required: '200'
+          tags:
+            - tag: patroni
